@@ -72,6 +72,8 @@ class GenericOAuthenticator(OAuthenticator):
         code = handler.get_argument("code")
         # TODO: Configure the curl_httpclient for tornado
         http_client = AsyncHTTPClient()
+        import pprint
+        pprint.pprint(http_client.defaults)
 
         params = dict(
             redirect_uri=self.get_callback_url(handler),
@@ -100,6 +102,8 @@ class GenericOAuthenticator(OAuthenticator):
             validate_cert=self.tls_verify,
             body=urllib.parse.urlencode(params),
         )
+
+        pprint.pprint(req.ssl_options)
 
         resp = await http_client.fetch(req)
 
